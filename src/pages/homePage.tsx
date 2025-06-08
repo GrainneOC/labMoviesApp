@@ -12,7 +12,7 @@ const styles = {
 
 
 
-const MovieListPage: React.FC<BaseMovieListProps> = ({movies}) => {
+const MovieListPage: React.FC<BaseMovieProps> = ({movies}) => {
   return (
     <Grid container sx={styles.root}>
       <Grid item xs={12}>
