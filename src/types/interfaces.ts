@@ -53,5 +53,10 @@ export interface MoviePageProps {
   images: MovieImage[];
 }
 
+export interface BaseMovieListProps {
+  movies: MovieT[];
+  selectFavourite: (movieId: number) => void;
+}
+
 export type FilterOption = "title" | "genre";
 
