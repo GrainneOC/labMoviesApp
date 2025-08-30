@@ -63,6 +63,58 @@ export const getPopularMovies = async (): Promise<MovieT[]> => {
   return data.results;
 };
 
+// Fetch movie details by ID
+export const getMovieDetails = async (id: number): Promise<MovieDetailsT> => {
+  const response = await fetch(
+    `${TMDB_BASE_URL}/movie/${id}?api_key=${TMDB_API_KEY}&language=en-US`
+  );
+  return response.json();
+};
+
+// Fetch movie images by ID
+export const getMovieImages = async (id: number): Promise<MovieImagesResponse> => {
+  const response = await fetch(
+    `${TMDB_BASE_URL}/movie/${id}/images?api_key=${TMDB_API_KEY}`
+  );
+  return response.json();
+};
+
+// Fetch movies for discovery
+export const getMovies = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&include_adult=false&page=1`
+  )
+    .then(res => res.json())
+    .then(json => json.results);
+};
+
+// Fetch movie by ID
+export const getMovie = (id: string) => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}`
+  ).then(res => res.json());
+};
+
+// Fetch genres
+export const getGenres = () => {
+  return fetch(
+    "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
+      TMDB_API_KEY +
+      "&language=en-US"
+  )
+    .then(res => res.json())
+    .then(json => json.genres);
+};
+
+// Fetch movie images by ID
+export const getMovieImages = (id: string | number) => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/images?api_key=${TMDB_API_KEY}`
+  )
+    .then((res) => res.json())
+    .then((json) => json.posters);
+};
+
 // Fetch top rated movies
 export const getTopRatedMovies = async (): Promise<MovieT[]> => {
   const response = await fetch(
@@ -72,81 +124,11 @@ export const getTopRatedMovies = async (): Promise<MovieT[]> => {
   return data.results;
 };
 
-// Fetch movies for discovery
-export const getMovies = () => {
-  return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
-  ).then((response) => {
-    if (!response.ok)
-      throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
-    return response.json();
-  })
-    .catch((error) => {
-      throw error
-    });
-};
-
-// Fetch movie by ID
-export const getMovie = (id: string) => {
-  return fetch(
-    `https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}`
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error(`Failed to get movie data. Response status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .catch((error) => {
-    throw error
- });
-};
-
-// Fetch genres
-export const getGenres = () => {
-  return fetch(
-    "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
-      TMDB_API_KEY +
-      "&language=en-US"
-  ).then( (response) => {
-    if (!response.ok)
-      throw new Error(`Unable to fetch genres. Response status: ${response.status}`);
-    return response.json();
-  })
-  .catch((error) => {
-    throw error
- });
-};
-
-// Fetch movie images by ID
-export const getMovieImages = (id: string | number) => {
-  return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/images?api_key=${TMDB_API_KEY}`
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error("failed to fetch images");
-    }
-    return response.json();
-  }).then((json) => json.posters)
-    .catch((error) => {
-      throw error
-    });
-};
-
-export const getMovieReviews = (id: string | number) => {
-  return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${TMDB_API_KEY}`
-  )
-    .then((res) => res.json())
-    .then((json) => {
-      // console.log(json.results);
-      return json.results;
-    });
-};
-
-export const getUpcomingMovies = () => {
-  return fetch(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${TMDB_API_KEY}&language=en-US&page=1`
-  )
-    .then((res) => res.json())
-    .then((json) => json.results);
+// Fetch popular actors
+export const getPopularActors = async (): Promise<any[]> => {
+  const response = await fetch(
+    `${TMDB_BASE_URL}/person/popular?api_key=${TMDB_API_KEY}&language=en-US&page=1`
+  );
+  const data = await response.json();
+  return data.results;
 };
