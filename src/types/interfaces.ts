@@ -68,6 +68,9 @@ export interface Review {
   id: string;
   content: string;
   author: string;
+  agree: boolean;
+  rating: number;
+  movieId: number;
 }
 
 export interface GenreData {
