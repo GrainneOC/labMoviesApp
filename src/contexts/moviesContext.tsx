@@ -6,12 +6,18 @@ interface MovieContextInterface {
     addToFavourites: ((movie: BaseMovieProps) => void);
     removeFromFavourites: ((movie: BaseMovieProps) => void);
     addReview: ((movie: BaseMovieProps, review: Review) => void);
+    mustWatch: number[];
+    addToMustWatch: ((movie: BaseMovieProps) => void);
+    removeFromMustWatch: ((movie: BaseMovieProps) => void);
 }
 const initialContextState: MovieContextInterface = {
     favourites: [],
     addToFavourites: () => {},
     removeFromFavourites: () => {},
     addReview: (movie, review) => { movie.id, review},
+    mustWatch: [],
+    addToMustWatch: () => {},
+    removeFromMustWatch: () => {},
 };
 
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -19,6 +25,7 @@ export const MoviesContext = React.createContext<MovieContextInterface>(initialC
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [favourites, setFavourites] = useState<number[]>([]);
     const [myReviews, setMyReviews] = useState<Review[]>([]);
+    const [mustWatch, setMustWatch] = useState<number[]>([]);
 
     const addToFavourites = useCallback((movie: BaseMovieProps) => {
         setFavourites((prevFavourites) => {
@@ -33,6 +40,25 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         setFavourites((prevFavourites) => prevFavourites.filter((mId) => mId !== movie.id));
     }, []);
 
+    const addToMustWatch = useCallback((movie: BaseMovieProps) => {
+        setMustWatch((prevMustWatch) => {
+            if (!prevMustWatch.includes(movie.id)) {
+                const newMustWatch = [...prevMustWatch, movie.id];
+                console.log("Must Watch list updated:", newMustWatch);
+                return newMustWatch;
+            }
+            return prevMustWatch;
+        });
+    }, []);
+
+    const removeFromMustWatch = useCallback((movie: BaseMovieProps) => {
+        setMustWatch((prevMustWatch) => {
+            const newMustWatch = prevMustWatch.filter((mId) => mId !== movie.id);
+            console.log("Must Watch list updated:", newMustWatch);
+            return newMustWatch;
+        });
+    }, []);
+
     const addReview = (movie:BaseMovieProps, review: Review) => {
         setMyReviews( {...myReviews, [movie.id]: review } )
     };
@@ -44,6 +70,9 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
                 addToFavourites,
                 removeFromFavourites,
                 addReview,
+                mustWatch,
+                addToMustWatch,
+                removeFromMustWatch,
             }}
         >
             {children}
