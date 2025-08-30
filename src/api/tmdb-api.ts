@@ -63,6 +63,32 @@ export const getPopularMovies = async (): Promise<MovieT[]> => {
   return data.results;
 };
 
+// Fetch top rated movies
+export const getTopRatedMovies = async (): Promise<MovieT[]> => {
+  const response = await fetch(
+    `${TMDB_BASE_URL}/movie/top_rated?api_key=${TMDB_API_KEY}&language=en-US&page=1`
+  );
+  const data: MovieListResponse = await response.json();
+  return data.results;
+};
+
+// Fetch popular actors
+export const getPopularActors = async (): Promise<any[]> => {
+  const response = await fetch(
+    `${TMDB_BASE_URL}/person/popular?api_key=${TMDB_API_KEY}&language=en-US&page=1`
+  );
+  const data = await response.json();
+  return data.results;
+};
+
+// Fetch actor details by ID
+export const getActorDetails = async (id: string): Promise<any> => {
+  const response = await fetch(
+    `${TMDB_BASE_URL}/person/${id}?api_key=${TMDB_API_KEY}&language=en-US`
+  );
+  return response.json();
+};
+
 // Fetch movie details by ID
 export const getMovieDetails = async (id: number): Promise<MovieDetailsT> => {
   const response = await fetch(
@@ -80,12 +106,13 @@ export const getMovieImages = async (id: number): Promise<MovieImagesResponse> =
 };
 
 // Fetch movies for discovery
-export const getMovies = () => {
-  return fetch(
+export const getMovies = async () => {
+  const response = await fetch(
     `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&include_adult=false&page=1`
-  )
-    .then(res => res.json())
-    .then(json => json.results);
+  );
+  const data = await response.json();
+  console.log("getMovies response:", data);
+  return data;
 };
 
 // Fetch movie by ID
@@ -106,29 +133,22 @@ export const getGenres = () => {
     .then(json => json.genres);
 };
 
-// Fetch movie images by ID
-export const getMovieImages = (id: string | number) => {
+// Fetch movie reviews by ID
+export const getMovieReviews = (id: string) => {
   return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/images?api_key=${TMDB_API_KEY}`
+    `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${TMDB_API_KEY}`
   )
     .then((res) => res.json())
-    .then((json) => json.posters);
+    .then((json) => json.results);
 };
 
-// Fetch top rated movies
-export const getTopRatedMovies = async (): Promise<MovieT[]> => {
+// Fetch upcoming movies
+export const getUpcomingMovies = async (): Promise<MovieT[]> => {
   const response = await fetch(
-    `${TMDB_BASE_URL}/movie/top_rated?api_key=${TMDB_API_KEY}&language=en-US&page=1`
+    `${TMDB_BASE_URL}/movie/upcoming?api_key=${TMDB_API_KEY}&language=en-US&page=1`
   );
   const data: MovieListResponse = await response.json();
   return data.results;
 };
 
-// Fetch popular actors
-export const getPopularActors = async (): Promise<any[]> => {
-  const response = await fetch(
-    `${TMDB_BASE_URL}/person/popular?api_key=${TMDB_API_KEY}&language=en-US&page=1`
-  );
-  const data = await response.json();
-  return data.results;
-};
+

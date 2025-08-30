@@ -16,12 +16,16 @@ const useFiltering = ( filters: Filter[]) => {
   });
 
   const filteringConditions = filters.map((f) => f.condition);
-  const filterFunction = (collection: any) =>
-    filteringConditions.reduce((data, conditionFn, index) => {
+  const filterFunction = (collection: any) => {
+    if (!collection || !Array.isArray(collection)) {
+      return [];
+    }
+    return filteringConditions.reduce((data, conditionFn, index) => {
       return data.filter((item: any) => {
           return conditionFn(item, filterValues[index].value);
       });
     }, collection);
+  };
 
   return {
     filterValues,

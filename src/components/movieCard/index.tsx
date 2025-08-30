@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Avatar, Card, CardActions, CardContent, CardHeader, Typography } from "@mui/material";
+import { Avatar, Card, CardActions, CardContent, CardHeader, Typography, Button } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { BaseMovieProps } from "../../types/interfaces";
 import { MoviesContext } from "../../contexts/moviesContext";
@@ -45,10 +45,10 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
       </CardContent>
       <CardActions disableSpacing>
         {typeof action === 'function' ? action(movie) : null}
-        <Link to={`/movies/${movie.id}`}>
-          <Typography variant="h6" component="p">
-            More Info ...
-          </Typography>
+        <Link to={`/movies/${movie.id}`} style={{ textDecoration: "none" }}>
+          <Button variant="contained" color="primary">
+            More Info
+          </Button>
         </Link>
       </CardActions>
     </Card>

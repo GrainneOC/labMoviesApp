@@ -36,6 +36,8 @@ const HomePage: React.FC = () => {
     return <h1>{error.message}</h1>;
   }
 
+  console.log("HomePage data:", data);
+
   const changeFilterValues = (type: string, value: string) => {
     const changedFilter = { name: type, value: value };
     const updatedFilterSet =
@@ -45,7 +47,7 @@ const HomePage: React.FC = () => {
     setFilterValues(updatedFilterSet);
   };
 
-  const movies = data ? data.results : [];
+  const movies = data && data.results ? data.results : [];
   const displayedMovies = filterFunction(movies);
 
   return (

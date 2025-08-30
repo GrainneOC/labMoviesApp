@@ -11,6 +11,7 @@ import UpcomingMoviesPage from "./pages/upcomingMoviesPage";
 import PopularMoviesPage from "./pages/popularMoviesPage";
 import TopRatedMoviesPage from "./pages/topRatedMoviesPage";
 import ActorsListPage from "./pages/actorsListPage";
+import ActorDetailPage from "./pages/actorDetailPage";
 import AddMovieReviewPage from './pages/addMovieReviewPage';
 import SiteHeader from './components/siteHeader'
 import MoviesContextProvider from "./contexts/moviesContext";
@@ -18,7 +19,7 @@ import MoviesContextProvider from "./contexts/moviesContext";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000,
+      staleTime: 60 * 1000, // 1 minute
       refetchOnWindowFocus: false,
     },
   },
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="/movies/popular" element={<PopularMoviesPage />} />
             <Route path="/movies/top-rated" element={<TopRatedMoviesPage />} />
             <Route path="/actors" element={<ActorsListPage />} />
+            <Route path="/actors/:id" element={<ActorDetailPage />} />
             <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
             <Route path="/movies/:id" element={<MoviePage />} />
             <Route path="/" element={<HomePage />} />

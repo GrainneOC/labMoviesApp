@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { getMovieImages } from "../../api/tmdb-api";
-import { MovieImage, MovieDetailsProps } from "../../types/interfaces";
+import { MovieImage, MovieDetailsProps, MovieImagesResponse } from "../../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
 
@@ -26,7 +26,7 @@ interface TemplateMoviePageProps {
 }
 
 const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) => {
-    const { data, error, isLoading, isError } = useQuery<MovieImage[], Error>(
+    const { data, error, isLoading, isError } = useQuery<MovieImagesResponse, Error>(
         ["images", movie.id],
         () => getMovieImages(movie.id)
     );
@@ -39,7 +39,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
         return <h1>{(error as Error).message}</h1>;
     }
 
-    const images = data as MovieImage[];
+    const images = data?.posters || [];
 
     return (
         <>
