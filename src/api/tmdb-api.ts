@@ -105,3 +105,12 @@ export const getGenres = () => {
     .then(res => res.json())
     .then(json => json.genres);
 };
+
+// Fetch movie images by ID
+export const getMovieImages = (id: string | number) => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/images?api_key=${TMDB_API_KEY}`
+  )
+    .then((res) => res.json())
+    .then((json) => json.posters);
+};
