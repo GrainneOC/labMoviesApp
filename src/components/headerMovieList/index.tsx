@@ -12,6 +12,7 @@ const styles = {
         alignItems: "center",
         flexWrap: "wrap",
         marginBottom: 1.5,
+        marginTop: 2, // Add top margin to account for fixed site header
     },
 };
 

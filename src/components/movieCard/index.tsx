@@ -44,7 +44,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        {action(movie)}
+        {typeof action === 'function' ? action(movie) : null}
         <Link to={`/movies/${movie.id}`}>
           <Typography variant="h6" component="p">
             More Info ...
