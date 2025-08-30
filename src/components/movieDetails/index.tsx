@@ -5,7 +5,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import StarRate from "@mui/icons-material/StarRate";
 import Typography from "@mui/material/Typography";
-import { MovieDetailsProps } from "../../types/interfaces";
+import { MovieDetailsT } from "../../types/interfaces";
 
 const styles = {
     chipSet: {
@@ -22,7 +22,7 @@ const styles = {
     },
 };
 
-const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
+const MovieDetails: React.FC<MovieDetailsT> = (movie) => {
 
     return (
         <>

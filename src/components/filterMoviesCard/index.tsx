@@ -24,7 +24,7 @@ const styles = {
 };
 
 
-  const FilterMoviesCard: React.FC= () => {
+const FilterMoviesCard: React.FC = () => {
 
   const genres = [
     {id: 1, name: "Animation"},

@@ -1,11 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
-import { MovieDetailsProps } from "../../types/interfaces"; 
+import { MovieDetailsT } from "../../types/interfaces"; 
 
 const styles = {
     root: {  
@@ -17,11 +18,16 @@ const styles = {
   },
 };
 
-const MovieHeader: React.FC<MovieDetailsProps> = (movie) => {
+const MovieHeader: React.FC<MovieDetailsT> = (movie) => {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate("/");
+  };
   
   return (
     <Paper component="div" sx={styles.root}>
-      <IconButton aria-label="go back">
+      <IconButton aria-label="go back" onClick={handleBack}>
         <ArrowBackIcon color="primary" fontSize="large" />
       </IconButton>
 

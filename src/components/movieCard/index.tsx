@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -12,7 +13,7 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import img from '../../images/film-poster-placeholder.png';
-import { BaseMovieProps } from "../../types/interfaces"; 
+import { MovieT } from "../../types/interfaces"; 
 
 const styles = {
   card: { maxWidth: 345 },
@@ -22,8 +23,12 @@ const styles = {
   },
 };
 
-const MovieCard: React.FC<BaseMovieProps> = (movie) => {
- 
+const MovieCard: React.FC<MovieT> = (movie) => {
+  const navigate = useNavigate();
+
+  const handleMoreInfo = () => {
+    navigate(`/movies/${movie.id}`);
+  };
 
   return (
     <Card sx={styles.card}>
@@ -56,7 +61,7 @@ const MovieCard: React.FC<BaseMovieProps> = (movie) => {
         <IconButton aria-label="add to favorites" >
           <FavoriteIcon color="primary" fontSize="large" />
         </IconButton>
-        <Button variant="outlined" size="medium" color="primary">
+        <Button variant="outlined" size="medium" color="primary" onClick={handleMoreInfo}>
           More Info ...
         </Button>
       </CardActions>
