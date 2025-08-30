@@ -1,51 +1,43 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import SortIcon from '@mui/icons-material/Sort';
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import React, { ChangeEvent } from "react";
+import { FilterOption, GenreData } from "../../types/interfaces";
 import { SelectChangeEvent } from "@mui/material";
-import { FilterOption } from "../../types/interfaces";
 import { getGenres } from "../../api/tmdb-api";
-
-const styles = {
-  root: {
-    maxWidth: 345,
-  },
-  media: { height: 300 },
- 
-  formControl: {
-    margin: 1,
-    minWidth: 220,
-    backgroundColor: "rgb(255, 255, 255)",
-  },
-};
-
+import { useQuery } from "react-query";
+import Spinner from '../spinner';
+import {
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  Select,
+  InputLabel,
+  MenuItem,
+  FormControl,
+} from "@mui/material";
 
 interface FilterMoviesCardProps {
-  onUserInput: (f: FilterOption, s: string) => void;
   titleFilter: string;
   genreFilter: string;
+  onUserInput: (f: FilterOption, s: string) => void;
 }
 
 const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput }) => {
-  const [genres, setGenres] = useState([{ id: '0', name: "All" }])
+  const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
 
-  useEffect(() => {
-    getGenres().then((allGenres) => {
-      setGenres([genres[0], ...allGenres]);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  if (isLoading) {
+    return <Spinner />;
+  }
+  if (isError) {
+    return <h1>{(error as Error).message}</h1>;
+  }
+  const genres = data?.genres || [];
+  if (genres[0].name !== "All") {
+    genres.unshift({ id: "0", name: "All" });
+  }
 
   const handleChange = (e: SelectChangeEvent, type: FilterOption, value: string) => {
     e.preventDefault()
-    onUserInput(type, value)
+      onUserInput(type, value)
   };
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,15 +49,13 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
   };
 
   return (
-    <>
-    <Card sx={styles.root} variant="outlined">
+    <Card sx={{ maxWidth: 345 }}>
       <CardContent>
-        <Typography variant="h5" component="h1">
-          <FilterAltIcon fontSize="large" />
+        <Typography variant="h5" component="h2">
           Filter the movies.
         </Typography>
         <TextField
-          sx={styles.formControl}
+          sx={{ margin: 1 }}
           id="filled-search"
           label="Search field"
           type="search"
@@ -73,35 +63,25 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
           variant="filled"
           onChange={handleTextChange}
         />
-        <FormControl sx={styles.formControl}>
+        <FormControl sx={{ margin: 1, minWidth: 120 }}>
           <InputLabel id="genre-label">Genre</InputLabel>
           <Select
             labelId="genre-label"
             id="genre-select"
             value={genreFilter}
+            label="Genre"
             onChange={handleGenreChange}
           >
-            {genres.map((genre) => {
-              return (
-                <MenuItem key={genre.id} value={genre.id}>
-                  {genre.name}
-                </MenuItem>
-              );
-            })}
+            {genres.map((genre) => (
+              <MenuItem key={genre.id} value={genre.id}>
+                {genre.name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </CardContent>
     </Card>
-    <Card sx={styles.root} variant="outlined">
-        <CardContent>
-          <Typography variant="h5" component="h1">
-            <SortIcon fontSize="large" />
-            Sort the movies.
-          </Typography>
-        </CardContent>
-      </Card>
-      </>
   );
-}
+};
 
 export default FilterMoviesCard;
