@@ -6,6 +6,7 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { MovieDetailsT } from "../../types/interfaces"; 
 
 const styles = {
@@ -24,6 +25,10 @@ const MovieHeader: React.FC<MovieDetailsT> = (movie) => {
   const handleBack = () => {
     navigate("/");
   };
+
+  // Check if the current movie is in favourites
+  const favourites = JSON.parse(localStorage.getItem("favourites") || '[]');
+  const isFavourite = favourites.some((fav: any) => fav.id === movie.id);
   
   return (
     <Paper component="div" sx={styles.root}>
@@ -33,6 +38,16 @@ const MovieHeader: React.FC<MovieDetailsT> = (movie) => {
 
       <Typography variant="h4" component="h3">
         {movie.title}{"   "}
+        {isFavourite && (
+          <FavoriteIcon 
+            sx={{ 
+              color: "red", 
+              fontSize: "large",
+              marginLeft: 1,
+              marginRight: 1
+            }} 
+          />
+        )}
         <a href={movie.homepage}>
           <HomeIcon color="primary"  fontSize="large"/>
         </a>
