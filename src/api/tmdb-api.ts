@@ -63,15 +63,14 @@ export const getPopularMovies = async (): Promise<MovieT[]> => {
   return data.results;
 };
 
-// Fetch movie details by ID
-export const getMovieDetails = async (id: number): Promise<MovieDetailsT> => {
+// Fetch top rated movies
+export const getTopRatedMovies = async (): Promise<MovieT[]> => {
   const response = await fetch(
-    `${TMDB_BASE_URL}/movie/${id}?api_key=${TMDB_API_KEY}&language=en-US`
+    `${TMDB_BASE_URL}/movie/top_rated?api_key=${TMDB_API_KEY}&language=en-US&page=1`
   );
-  return response.json();
+  const data: MovieListResponse = await response.json();
+  return data.results;
 };
-
-
 
 // Fetch movies for discovery
 export const getMovies = () => {
