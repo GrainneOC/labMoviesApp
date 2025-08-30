@@ -7,6 +7,7 @@ import { BaseMovieProps } from "../../types/interfaces";
 interface MovieListPageTemplateProps {
   movies: BaseMovieProps[];
   title: string;
+  action: (m: BaseMovieProps) => React.ReactNode;
 }
 
 const styles = {
@@ -15,14 +16,14 @@ const styles = {
   }
 };
 
-const MovieListPageTemplate: React.FC<MovieListPageTemplateProps> = ({ movies, title }) => {
+const MovieListPageTemplate: React.FC<MovieListPageTemplateProps> = ({ movies, title, action }) => {
   return (
     <Grid container sx={styles.root}>
       <Grid item xs={12}>
         <Header title={title} />
       </Grid>
       <Grid item container spacing={5}>
-        <MovieList movies={movies} />
+        <MovieList action={action} movies={movies} />
       </Grid>
     </Grid>
   );

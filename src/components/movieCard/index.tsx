@@ -1,6 +1,6 @@
-import React, { MouseEvent, useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Avatar, Card, CardActions, CardContent, CardHeader, IconButton, Typography } from "@mui/material";
+import { Avatar, Card, CardActions, CardContent, CardHeader, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { BaseMovieProps } from "../../types/interfaces";
 import { MoviesContext } from "../../contexts/moviesContext";
@@ -15,17 +15,12 @@ const styles = {
 
 interface MovieCardProps {
   movie: BaseMovieProps;
+  action: (m: BaseMovieProps) => React.ReactNode;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
-  const { favourites, addToFavourites } = useContext(MoviesContext);
-
+const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
+  const { favourites } = useContext(MoviesContext);
   const isFavourite = favourites.find((id) => id === movie.id) ? true : false;
-
-  const handleAddToFavourite = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    addToFavourites(movie);
-  };
 
   return (
     <Card sx={styles.card}>
@@ -49,15 +44,11 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={handleAddToFavourite}>
-          <FavoriteIcon />
-        </IconButton>
+        {action(movie)}
         <Link to={`/movies/${movie.id}`}>
-          <IconButton aria-label="info">
-            <Typography variant="h6" component="p">
-              More Info ...
-            </Typography>
-          </IconButton>
+          <Typography variant="h6" component="p">
+            More Info ...
+          </Typography>
         </Link>
       </CardActions>
     </Card>

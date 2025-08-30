@@ -55,7 +55,7 @@ export interface MoviePageProps {
 
 export interface BaseMovieListProps {
   movies: MovieT[];
-  selectFavourite: (movieId: number) => void;
+  action: (m: BaseMovieProps) => React.ReactNode;
 }
 
 export interface MovieListPageTemplateProps extends BaseMovieListProps {
