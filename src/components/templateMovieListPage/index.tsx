@@ -2,7 +2,12 @@ import React from "react";
 import Header from "../headerMovieList";
 import Grid from "@mui/material/Grid";
 import MovieList from "../movieList";
-import {  MovieListPageTemplateProps} from "../../types/interfaces";
+import { BaseMovieProps } from "../../types/interfaces";
+
+interface MovieListPageTemplateProps {
+  movies: BaseMovieProps[];
+  title: string;
+}
 
 const styles = {
   root: { 
@@ -10,17 +15,14 @@ const styles = {
   }
 };
 
-const MovieListPageTemplate: React.FC<MovieListPageTemplateProps> = ({ movies, title, selectFavourite })=> {
+const MovieListPageTemplate: React.FC<MovieListPageTemplateProps> = ({ movies, title }) => {
   return (
     <Grid container sx={styles.root}>
       <Grid item xs={12}>
         <Header title={title} />
       </Grid>
       <Grid item container spacing={5}>
-        <MovieList
-          selectFavourite={selectFavourite}
-          movies={movies}
-        ></MovieList>
+        <MovieList movies={movies} />
       </Grid>
     </Grid>
   );

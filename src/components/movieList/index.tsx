@@ -1,15 +1,22 @@
 import React from "react";
-import Movie from "../movieCard/";
-import Grid from "@mui/material/Grid";
-import { BaseMovieListProps } from "../../types/interfaces";
+import { Grid } from "@mui/material";
+import Movie from "../movieCard";
+import { BaseMovieProps } from "../../types/interfaces";
 
-const MovieList: React.FC<BaseMovieListProps> = ({movies, selectFavourite}) => {
-  const movieCards = movies.map((m) => (
-    <Grid key={m.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
-      <Movie key={m.id} movie={m} selectFavourite={selectFavourite}/>
-    </Grid>
-  ));
-  return movieCards;
+interface MovieListProps {
+  movies: BaseMovieProps[];
 }
 
-  export default MovieList;
+const MovieList: React.FC<MovieListProps> = ({ movies }) => {
+  return (
+    <Grid container spacing={5}>
+      {movies.map((m) => (
+        <Grid item key={m.id} xs={12} sm={6} md={4} lg={3} xl={2}>
+          <Movie movie={m} />
+        </Grid>
+      ))}
+    </Grid>
+  );
+};
+
+export default MovieList;

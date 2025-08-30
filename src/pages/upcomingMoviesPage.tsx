@@ -12,18 +12,10 @@ const UpcomingMoviesPage: React.FC = () => {
     });
   }, []);
 
-  const addToFavourites = (movieId: number) => {
-    const updatedMovies = movies.map((m) =>
-      m.id === movieId ? { ...m, favourite: !m.favourite } : m
-    );
-    setMovies(updatedMovies);
-  };
-
   return (
     <PageTemplate
       title="Upcoming Movies"
       movies={movies}
-      selectFavourite={addToFavourites}
     />
   );
 };
