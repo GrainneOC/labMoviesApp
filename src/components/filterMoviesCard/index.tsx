@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -9,6 +9,8 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SortIcon from '@mui/icons-material/Sort';
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { SelectChangeEvent } from "@mui/material";
+import { FilterOption } from "../../types/interfaces";
 
 const styles = {
   root: {
@@ -24,13 +26,41 @@ const styles = {
 };
 
 
-const FilterMoviesCard: React.FC = () => {
+interface FilterMoviesCardProps {
+  onUserInput: (f: FilterOption, s: string) => void;
+  titleFilter: string;
+  genreFilter: string;
+}
 
-  const genres = [
-    {id: 1, name: "Animation"},
-    {id: 2, name: "Comedy"},
-    {id: 3, name: "Thriller"}
-  ]
+const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput }) => {
+  const [genres, setGenres] = useState([{ id: '0', name: "All" }])
+
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/genre/movie/list?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    )
+      .then(res => res.json())
+      .then(json => {
+        return json.genres
+      })
+      .then(apiGenres => {
+        setGenres([genres[0], ...apiGenres]);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleChange = (e: SelectChangeEvent, type: FilterOption, value: string) => {
+    e.preventDefault()
+    onUserInput(type, value)
+  };
+
+  const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChange(e, "title", e.target.value)
+  }
+
+  const handleGenreChange = (e: SelectChangeEvent) => {
+    handleChange(e, "genre", e.target.value)
+  };
 
   return (
     <>
@@ -45,13 +75,17 @@ const FilterMoviesCard: React.FC = () => {
           id="filled-search"
           label="Search field"
           type="search"
+          value={titleFilter}
           variant="filled"
+          onChange={handleTextChange}
         />
         <FormControl sx={styles.formControl}>
           <InputLabel id="genre-label">Genre</InputLabel>
           <Select
             labelId="genre-label"
             id="genre-select"
+            value={genreFilter}
+            onChange={handleGenreChange}
           >
             {genres.map((genre) => {
               return (
