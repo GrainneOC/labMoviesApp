@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const ActorDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: actor, error, isLoading, isError } = useQuery(
+  const { data: actor, isLoading, isError } = useQuery(
     ["actor", id],
     () => getActorDetails(id!)
   );
@@ -19,7 +19,7 @@ const ActorDetailPage: React.FC = () => {
   }
 
   if (isError) {
-    return <h1>{(error as Error).message}</h1>;
+    return <h1>Error loading actor details</h1>;
   }
 
   if (!actor) {

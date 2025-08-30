@@ -1,20 +1,21 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { BaseMovieProps, Review } from "../types/interfaces";
 
 interface MovieContextInterface {
     favourites: number[];
     addToFavourites: ((movie: BaseMovieProps) => void);
     removeFromFavourites: ((movie: BaseMovieProps) => void);
-    addReview: ((movie: BaseMovieProps, review: Review) => void);
+    addReview: ((review: Review) => void);
     mustWatch: number[];
     addToMustWatch: ((movie: BaseMovieProps) => void);
     removeFromMustWatch: ((movie: BaseMovieProps) => void);
 }
+
 const initialContextState: MovieContextInterface = {
     favourites: [],
     addToFavourites: () => {},
     removeFromFavourites: () => {},
-    addReview: (movie, review) => { movie.id, review},
+    addReview: () => {},
     mustWatch: [],
     addToMustWatch: () => {},
     removeFromMustWatch: () => {},
@@ -27,40 +28,28 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     const [myReviews, setMyReviews] = useState<Review[]>([]);
     const [mustWatch, setMustWatch] = useState<number[]>([]);
 
-    const addToFavourites = useCallback((movie: BaseMovieProps) => {
-        setFavourites((prevFavourites) => {
-            if (!prevFavourites.includes(movie.id)) {
-                return [...prevFavourites, movie.id];
-            }
-            return prevFavourites;
-        });
-    }, []);
+    const addToFavourites = (movie: BaseMovieProps) => {
+        if (!favourites.includes(movie.id)) {
+            setFavourites([...favourites, movie.id]);
+        }
+    };
 
-    const removeFromFavourites = useCallback((movie: BaseMovieProps) => {
-        setFavourites((prevFavourites) => prevFavourites.filter((mId) => mId !== movie.id));
-    }, []);
+    const removeFromFavourites = (movie: BaseMovieProps) => {
+        setFavourites(favourites.filter((mId) => mId !== movie.id));
+    };
 
-    const addToMustWatch = useCallback((movie: BaseMovieProps) => {
-        setMustWatch((prevMustWatch) => {
-            if (!prevMustWatch.includes(movie.id)) {
-                const newMustWatch = [...prevMustWatch, movie.id];
-                console.log("Must Watch list updated:", newMustWatch);
-                return newMustWatch;
-            }
-            return prevMustWatch;
-        });
-    }, []);
+    const addToMustWatch = (movie: BaseMovieProps) => {
+        if (!mustWatch.includes(movie.id)) {
+            setMustWatch([...mustWatch, movie.id]);
+        }
+    };
 
-    const removeFromMustWatch = useCallback((movie: BaseMovieProps) => {
-        setMustWatch((prevMustWatch) => {
-            const newMustWatch = prevMustWatch.filter((mId) => mId !== movie.id);
-            console.log("Must Watch list updated:", newMustWatch);
-            return newMustWatch;
-        });
-    }, []);
+    const removeFromMustWatch = (movie: BaseMovieProps) => {
+        setMustWatch(mustWatch.filter((mId) => mId !== movie.id));
+    };
 
-    const addReview = (movie:BaseMovieProps, review: Review) => {
-        setMyReviews( {...myReviews, [movie.id]: review } )
+    const addReview = (review: Review) => {
+        setMyReviews([...myReviews, review]);
     };
 
     return (

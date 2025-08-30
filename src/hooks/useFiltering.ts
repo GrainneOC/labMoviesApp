@@ -4,9 +4,9 @@ interface Filter {
     name: string;
     value: string;
     condition: (item: any, value: string) => boolean;
-    }
+}
 
-const useFiltering = ( filters: Filter[]) => {
+const useFiltering = (filters: Filter[]) => {
   const [filterValues, setFilterValues] = useState(() => {
     const filterInitialValues = filters.map((f) => ({
       name: f.name,
@@ -15,16 +15,24 @@ const useFiltering = ( filters: Filter[]) => {
     return filterInitialValues;
   });
 
-  const filteringConditions = filters.map((f) => f.condition);
   const filterFunction = (collection: any) => {
     if (!collection || !Array.isArray(collection)) {
       return [];
     }
-    return filteringConditions.reduce((data, conditionFn, index) => {
-      return data.filter((item: any) => {
-          return conditionFn(item, filterValues[index].value);
-      });
-    }, collection);
+    
+    let filteredData = collection;
+    
+    // Apply each filter one by one
+    filters.forEach((filter, index) => {
+      const currentValue = filterValues[index].value;
+      if (currentValue && currentValue !== "All") {
+        filteredData = filteredData.filter((item: any) => 
+          filter.condition(item, currentValue)
+        );
+      }
+    });
+    
+    return filteredData;
   };
 
   return {

@@ -20,7 +20,7 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
   const { favourites } = useContext(MoviesContext);
-  const isFavourite = favourites.find((id) => id === movie.id) ? true : false;
+  const isFavourite = favourites.includes(movie.id);
 
   return (
     <Card sx={styles.card}>
@@ -34,7 +34,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
         }
         title={
           <Typography variant="h5" component="p">
-            {movie.title}{" "}
+            {movie.title}
           </Typography>
         }
       />

@@ -24,8 +24,7 @@ const MovieReviews: React.FC<MovieDetailsProps> = (movie) => {
         getMovieReviews(movie.id.toString()).then((reviews) => {
             setReviews(reviews);
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [movie.id]);
 
     return (
         <TableContainer component={Paper}>
