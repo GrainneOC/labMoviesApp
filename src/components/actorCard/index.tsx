@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Avatar, Card, CardActions, CardContent, CardHeader, Typography } from "@mui/material";
-import { BaseMovieProps } from "../../types/interfaces";
+
 
 const styles = {
   card: { maxWidth: 345 },

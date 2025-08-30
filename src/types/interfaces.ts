@@ -86,3 +86,9 @@ export interface DiscoverMovies {
   results: BaseMovieProps[];
 }
 
+export interface MovieImagesResponse {
+  id: number;
+  backdrops: MovieImage[];
+  posters: MovieImage[];
+}
+

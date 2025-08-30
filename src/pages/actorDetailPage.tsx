@@ -19,7 +19,7 @@ const ActorDetailPage: React.FC = () => {
   }
 
   if (isError) {
-    return <h1>{error.message}</h1>;
+    return <h1>{(error as Error).message}</h1>;
   }
 
   if (!actor) {
