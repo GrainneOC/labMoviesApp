@@ -41,7 +41,6 @@ export interface MovieImage {
 
 // Legacy interfaces for backward compatibility
 export interface BaseMovieProps extends MovieT {
-  movies: MovieT[];
 }
 
 export interface MovieDetailsProps extends MovieDetailsT {

@@ -1,22 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getUpcomingMovies } from "../api/tmdb-api";
-import { MovieT } from "../types/interfaces";
+import { useQuery } from "react-query";
+import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites';
+import { BaseMovieProps } from "../types/interfaces";
 
 const UpcomingMoviesPage: React.FC = () => {
-  const [movies, setMovies] = useState<MovieT[]>([]);
+  const { data: movies, error, isLoading, isError } = useQuery<BaseMovieProps[], Error>("upcoming", getUpcomingMovies);
 
-  useEffect(() => {
-    getUpcomingMovies().then((movies) => {
-      setMovies(movies);
-    });
-  }, []);
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isError) {
+    return <h1>{error.message}</h1>;
+  }
 
   return (
     <PageTemplate
       title="Upcoming Movies"
-      movies={movies}
+      movies={movies || []}
       action={(movie) => {
         return <AddToFavouritesIcon {...movie} />
       }}

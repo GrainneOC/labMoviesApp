@@ -71,13 +71,7 @@ export const getMovieDetails = async (id: number): Promise<MovieDetailsT> => {
   return response.json();
 };
 
-// Fetch movie images by ID
-export const getMovieImages = async (id: number): Promise<MovieImagesResponse> => {
-  const response = await fetch(
-    `${TMDB_BASE_URL}/movie/${id}/images?api_key=${TMDB_API_KEY}`
-  );
-  return response.json();
-};
+
 
 // Fetch movies for discovery
 export const getMovies = () => {
