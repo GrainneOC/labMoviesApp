@@ -98,4 +98,4 @@ Enhanced static Movies Fan app with live data, navigation, filtering, and favori
 ## Result
 Transformed from static movie display to interactive movie browsing application with real-time data, search capabilities, and personalized favorites.
 
-# Deployed on Vercel: https://lab-movies-app-git-app-development-grainnes-projects-0a913544.vercel.app/
+### Deployed on Vercel: https://lab-movies-app-git-app-development-grainnes-projects-0a913544.vercel.app/
